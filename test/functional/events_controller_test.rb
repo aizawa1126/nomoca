@@ -1,8 +1,14 @@
 require 'test_helper'
 
 class EventsControllerTest < ActionController::TestCase
+  def login
+    session[:login] = @user
+  end
+
   setup do
+    @user = users(:one)
     @event = events(:one)
+    login
   end
 
   test "should get index" do

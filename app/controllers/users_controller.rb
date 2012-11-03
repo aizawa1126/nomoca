@@ -1,14 +1,5 @@
-class UsersController < ApplicationController
-  # GET /users
-  # GET /users.json
-  def index
-    @users = User.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @users }
-    end
-  end
+class UsersController < AuthenticationController
+  before_filter :authenticate, :except => ['new', 'create']
 
   # GET /users/1
   # GET /users/1.json
@@ -44,6 +35,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        session[:login] = @user
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render json: @user, status: :created, location: @user }
       else
@@ -60,6 +52,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
+        session[:login] = @user
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
@@ -75,9 +68,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.destroy
 
-    respond_to do |format|
-      format.html { redirect_to users_url }
-      format.json { head :no_content }
-    end
+    logout
   end
 end

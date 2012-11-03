@@ -7,7 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+  <p class="menu">
+  <% if session[:login] %>
+  <% user = session[:login]%>
+    <%= link_to (user[:name].blank? ? user[:account] : user[:name]), :controller => 'users', :action => 'show', :id => user[:id] %>
+    <%= link_to 'ログアウト', :controller => 'authentication', :action => 'logout' %>
+  <% else %>
+    <%= link_to 'ログイン', :controller => 'authentication', :action => 'index' %>
+  <% end %>
+  </p>
 <%= yield %>
 
 </body>

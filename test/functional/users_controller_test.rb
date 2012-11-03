@@ -1,14 +1,13 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
-  setup do
-    @user = users(:one)
+  def login
+    session[:login] = @user
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:users)
+  setup do
+    @user = users(:one)
+    login
   end
 
   test "should get new" do
@@ -18,7 +17,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create user" do
     assert_difference('User.count') do
-      post :create, user: { account: @user.account, name: @user.name, password: @user.password }
+      post :create, user: { account: "test", name: "test", password: "test", password_confirmation: "test" }
     end
 
     assert_redirected_to user_path(assigns(:user))
@@ -35,7 +34,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    put :update, id: @user, user: { account: @user.account, name: @user.name, password: @user.password }
+    put :update, id: @user, user: { account: "test", name: "test", password: "test", password_confirmation: "test" }
     assert_redirected_to user_path(assigns(:user))
   end
 
@@ -44,6 +43,6 @@ class UsersControllerTest < ActionController::TestCase
       delete :destroy, id: @user
     end
 
-    assert_redirected_to users_path
+    assert_redirected_to root_path
   end
 end
