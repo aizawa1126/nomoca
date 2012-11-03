@@ -1,10 +1,29 @@
 class EventsController < ApplicationController
   before_filter :authenticate
+  before_filter :set_user
+
+  def set_user
+    @user = session[:login]
+  end
+
+  def owner?
+    @event = Event.find(params[:id])
+    @event.user_id == @user.id
+  end
+
+  def accessible
+    owner?
+  end
+
+  def accessible_list
+    conditions = ["user_id = ?", @user.id]
+    @events = Event.find(:all, :conditions => conditions)
+  end
 
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    accessible_list
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +34,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @event = Event.find(params[:id])
+    raise unless accessible
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,13 +55,14 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    @event = Event.find(params[:id])
+    raise unless owner?
   end
 
   # POST /events
   # POST /events.json
   def create
     @event = Event.new(params[:event])
+    @event.user_id = @user.id
 
     respond_to do |format|
       if @event.save
@@ -58,7 +78,7 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
-    @event = Event.find(params[:id])
+    raise unless owner?
 
     respond_to do |format|
       if @event.update_attributes(params[:event])
@@ -74,7 +94,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
-    @event = Event.find(params[:id])
+    raise unless owner?
     @event.destroy
 
     respond_to do |format|

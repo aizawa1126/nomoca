@@ -1,15 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  id: 1
   title: MyString
   date: 2012-11-03
   place: MyString
   budget: 1
   context: MyText
+  user_id: 1
 
 two:
+  id: 2
   title: MyString
   date: 2012-11-03
   place: MyString
   budget: 1
   context: MyText
+  user_id: 2 

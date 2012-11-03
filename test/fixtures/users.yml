@@ -1,11 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  id: 1
   account: MyString
   name: MyString
   password: MyString
 
 two:
+  id: 2
   account: MyString
   name: MyString
   password: MyString
