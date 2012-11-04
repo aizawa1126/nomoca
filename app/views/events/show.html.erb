@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
-
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>
 <p>
   <b>Title:</b>
   <%= @event.title %>
@@ -24,7 +25,34 @@
   <b>Context:</b>
   <%= @event.context %>
 </p>
-
-
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<table>
+<tr>
+  <th>Name</th>
+  <th>Intention</th>
+  <th>Edit</th>
+  <% if @is_own %>
+  <th>Destroy</th>
+  <% end %>
+</tr>
+<% @invitations.each do |invitation| %>
+<tr>
+<td><%= invitation.user.name %></td>
+<% 
+  intention = if invitation.intention == nil then 'unknown'
+              elsif invitation.intention == true then '○'
+              else '×'
+              end
+%>
+<td><%= intention %></td>
+<td>
+<% if @is_own || @user.id == invitation.user.id %>
+<%= link_to 'Edit', :controller => 'invitations', :action=>'edit', :id => invitation.id, :event_id => @event.id %>
+<% end %>
+</td>
+<% if @is_own %>
+<td><%= link_to 'Destroy', {:controller => 'invitations', :action=>'destroy', :id => invitation.id, :event_id => @event.id}, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<% end %>
+</tr>
+<% end %>
+</table>
+<%= link_to 'New Invitation', :controller => 'invitations', :action=>'new', :event_id => @event.id %>

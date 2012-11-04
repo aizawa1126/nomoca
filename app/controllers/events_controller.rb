@@ -6,18 +6,23 @@ class EventsController < ApplicationController
     @user = session[:login]
   end
 
-  def owner?
+  def is_own?
     @event = Event.find(params[:id])
     @event.user_id == @user.id
   end
 
   def accessible
-    owner?
+    conditions = ["user_id = ? and event_id = ?", @user.id, params[:id]]
+    @invitation = Invitation.find(:all, :conditions => conditions)
   end
 
   def accessible_list
     conditions = ["user_id = ?", @user.id]
-    @events = Event.find(:all, :conditions => conditions)
+    @invitations = Invitation.find(:all, :conditions => conditions)
+    @events = Array.new
+    @invitations.each do |invitation|
+      @events << invitation.event
+    end
   end
 
   # GET /events
@@ -35,6 +40,9 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     raise unless accessible
+    @is_own = is_own?
+    conditions = ["event_id = ?", @event.id]
+    @invitations = Invitation.find(:all, :conditions => conditions)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -55,7 +63,7 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    raise unless owner?
+    raise unless is_own?
   end
 
   # POST /events
@@ -66,6 +74,8 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
+        @invitation = Invitation.new({"user_id" => @user.id, "event_id" => @event.id, "owner_id" => @user.id, "intention" => true})
+        @invitation.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
@@ -78,7 +88,7 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
-    raise unless owner?
+    raise unless is_own?
 
     respond_to do |format|
       if @event.update_attributes(params[:event])
@@ -94,7 +104,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
-    raise unless owner?
+    raise unless is_own?
     @event.destroy
 
     respond_to do |format|
