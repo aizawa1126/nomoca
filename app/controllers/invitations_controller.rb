@@ -6,9 +6,14 @@ class InvitationsController < ApplicationController
     @user = session[:login]
   end
 
-  # GET /invitations/new
-  # GET /invitations/new.json
+  def accessible_invitation?
+    @invitation = Invitation.find(params[:id])
+    @invitation.owner_id == @user.id || @invitation.user_id == @user.id
+  end
+
   def new
+    @event = Event.find(params[:event_id])
+    raise unless @event.user_id == @user.id
     @invitation = Invitation.new
     @users = User.all
 
@@ -18,14 +23,13 @@ class InvitationsController < ApplicationController
     end
   end
 
-  # GET /invitations/1/edit
   def edit
-    @invitation = Invitation.find(params[:id])
+    raise unless accessible_invitation?
   end
 
-  # POST /invitations
-  # POST /invitations.json
   def create
+    @event = Event.find(params[:event_id])
+    raise unless @event.user_id == @user.id
     @invitation = Invitation.new(params[:invitation])
     @invitation.owner_id = @user.id
     @invitation.event_id = params[:event_id]
@@ -39,10 +43,8 @@ class InvitationsController < ApplicationController
     end
   end
 
-  # PUT /invitations/1
-  # PUT /invitations/1.json
   def update
-    @invitation = Invitation.find(params[:id])
+    railse unless accessible_invitation?
     @invitation.owner_id = @user.id
     @invitation.event_id = params[:event_id]
 
@@ -55,8 +57,6 @@ class InvitationsController < ApplicationController
     end
   end
 
-  # DELETE /invitations/1
-  # DELETE /invitations/1.json
   def destroy
     @invitation = Invitation.find(params[:id])
     @invitation.destroy

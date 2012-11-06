@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
+<% if @is_own %>
 <%= link_to 'Edit', edit_event_path(@event) %> |
+<% end %>
 <%= link_to 'Back', events_path %>
 <p>
   <b>Title:</b>
@@ -36,7 +38,7 @@
 </tr>
 <% @invitations.each do |invitation| %>
 <tr>
-<td><%= invitation.user.name %></td>
+<td><%= invitation.user.name ? invitation.user.name : invitation.user.account %></td>
 <% 
   intention = if invitation.intention == nil then 'unknown'
               elsif invitation.intention == true then '○'
@@ -55,4 +57,6 @@
 </tr>
 <% end %>
 </table>
+<% if @is_own %>
 <%= link_to 'New Invitation', :controller => 'invitations', :action=>'new', :event_id => @event.id %>
+<% end %>

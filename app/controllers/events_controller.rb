@@ -25,8 +25,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events
-  # GET /events.json
   def index
     accessible_list
 
@@ -36,8 +34,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/1
-  # GET /events/1.json
   def show
     raise unless accessible
     @is_own = is_own?
@@ -50,8 +46,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/new
-  # GET /events/new.json
   def new
     @event = Event.new
 
@@ -61,13 +55,10 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/1/edit
   def edit
     raise unless is_own?
   end
 
-  # POST /events
-  # POST /events.json
   def create
     @event = Event.new(params[:event])
     @event.user_id = @user.id
@@ -85,8 +76,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # PUT /events/1
-  # PUT /events/1.json
   def update
     raise unless is_own?
 
@@ -101,8 +90,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # DELETE /events/1
-  # DELETE /events/1.json
   def destroy
     raise unless is_own?
     @event.destroy

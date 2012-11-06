@@ -14,9 +14,7 @@
   <% end %>
 
   <div class="field">
-    <%#= f.label :user_id %><br />
-    <%#= f.number_field :user_id %>
-    <%=  f.select :user_id, @users.map{|t| [t.name, t.id]}%>
+    <%=  f.select :user_id, @users.map{|t| [(t.name ? t.name : t.account), t.id]}%>
   </div>
   <div class="actions">
     <%= f.submit %>
