@@ -12,14 +12,8 @@ class InvitationsControllerTest < ActionController::TestCase
     login
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:invitations)
-  end
-
   test "should get new" do
-    get :new
+    get :new, event_id: @event.id
     assert_response :success
   end
 
@@ -31,13 +25,8 @@ class InvitationsControllerTest < ActionController::TestCase
     assert_redirected_to '/events/1'
   end
 
-  test "should show invitation" do
-    get :show, id: @invitation
-    assert_response :success
-  end
-
   test "should get edit" do
-    get :edit, id: @invitation
+    get :edit, id: @invitation, event_id: @invitation.event_id
     assert_response :success
   end
 

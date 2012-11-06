@@ -6,29 +6,6 @@ class InvitationsController < ApplicationController
     @user = session[:login]
   end
 
-
-  # GET /invitations
-  # GET /invitations.json
-  def index
-    @invitations = Invitation.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @invitations }
-    end
-  end
-
-  # GET /invitations/1
-  # GET /invitations/1.json
-  def show
-    @invitation = Invitation.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @invitation }
-    end
-  end
-
   # GET /invitations/new
   # GET /invitations/new.json
   def new
@@ -85,7 +62,6 @@ class InvitationsController < ApplicationController
     @invitation.destroy
 
     respond_to do |format|
-#      format.html { redirect_to invitations_url }
       format.html { redirect_to :controller => 'events', :action => 'show', :id => params[:event_id] }
     end
   end
