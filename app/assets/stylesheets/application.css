@@ -11,3 +11,14 @@
  *= require_self
  *= require_tree .
  */
+h1 {
+  width: 100%;
+  position: relative;
+}
+
+ul.menu {
+  position: absolute;
+  list-style: none;
+  right: 0px;
+  top: -20px;
+}
