@@ -40,8 +40,8 @@
 <tr>
 <td><%= invitation.user.name ? invitation.user.name : invitation.user.account %></td>
 <% 
-  intention = if invitation.intention == nil then 'unknown'
-              elsif invitation.intention == true then '○'
+  intention = if invitation.intention == 'attendance' then '◯'
+              elsif invitation.intention == 'pending' then '△'
               else '×'
               end
 %>

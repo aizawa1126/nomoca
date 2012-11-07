@@ -13,10 +13,9 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :intention %><br />
-    <%= f.check_box :intention %>
-  </div>
+  <p>出席: <%= radio_button 'invitation', 'intention', 'attendance', {:checked => true} %></p>
+  <p>欠席: <%= radio_button 'invitation', 'intention', 'absence', {} %></p>
+  <p>未定: <%= radio_button 'invitation', 'intention', 'pending', {} %></p>
   <div class="actions">
     <%= f.submit %>
   </div>
