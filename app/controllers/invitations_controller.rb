@@ -38,6 +38,7 @@ class InvitationsController < ApplicationController
       if @invitation.save
         format.html { redirect_to :controller => 'events', :action => 'show', :id => params[:event_id] }
       else
+        @users = User.all
         format.html { render action: "new" }
       end
     end
