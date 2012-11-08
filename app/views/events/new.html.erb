@@ -1,4 +1,4 @@
-<h1>New event</h1>
+<h1>イベント新規作成</h1>
 
 <%= form_for(@event) do |f| %>
   <% if @event.errors.any? %>
@@ -14,28 +14,26 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br />
+    <%= f.label 'タイトル' %><br />
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :date %><br />
+    <%= f.label '開催日' %><br />
     <%= f.date_select :date %>
   </div>
   <div class="field">
-    <%= f.label :place %><br />
+    <%= f.label '場所' %><br />
     <%= f.text_field :place %>
   </div>
   <div class="field">
-    <%= f.label :budget %><br />
+    <%= f.label '予算' %><br />
     <%= f.number_field :budget %>
   </div>
   <div class="field">
-    <%= f.label :context %><br />
+    <%= f.label '詳細' %><br />
     <%= f.text_area :context %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'イベント作成'%>
   </div>
 <% end %>
-
-<%= link_to 'Back', events_path %>

@@ -1,14 +1,12 @@
-<h1>Listing events</h1>
+<h1>イベントリスト</h1>
 
 <table>
   <tr>
-    <th>Title</th>
-    <th>Date</th>
-    <th>Place</th>
-    <th>Budget</th>
-    <th>Context</th>
-    <th></th>
-    <th></th>
+    <th>タイトル</th>
+    <th>開催日</th>
+    <th>場所</th>
+    <th>予算</th>
+    <th>説明</th>
     <th></th>
   </tr>
 
@@ -17,15 +15,13 @@
     <td><%= event.title %></td>
     <td><%= event.date %></td>
     <td><%= event.place %></td>
-    <td><%= event.budget %></td>
+    <td><%= event.budget.blank? ? '未定' : event.budget.to_s+'円' %></td>
     <td><%= event.context %></td>
-    <td><%= link_to 'Show', event %></td>
-    <td><%= event.user_id == @user.id ? (link_to 'Edit', edit_event_path(event)) : '' %></td>
-    <td><%= event.user_id == @user.id ? (link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }) : '' %></td>
+    <td><%= link_to 'もっと見る', event %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Event', new_event_path %>
+<%= link_to 'イベント新規作成', new_event_path %>

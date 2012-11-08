@@ -1,4 +1,4 @@
-<h1>Editing user</h1>
+<h1>アカウントを編集</h1>
 
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
@@ -14,24 +14,21 @@
   <% end %>
 
   <div class="field">
-    <p>Account: <%= @user[:account] %></p>
+    <p>アカウント名: <%= @user[:account] %></p>
   </div>
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label '名前' %><br />
     <%= f.text_field :name %>
   </div>
     <div class="field">
-    <%= f.label :password %><br />
+    <%= f.label 'パスワード' %><br />
     <%= f.password_field :password %>
   </div>
   <div class="field">
-    <%= f.label 'confirm password' %><br />
+    <%= f.label 'パスワード(確認用)' %><br />
     <%= f.password_field :password_confirmation %>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Top', root_path %>

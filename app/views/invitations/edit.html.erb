@@ -1,4 +1,4 @@
-<h1>Editing invitation</h1>
+<h1>出席を編集</h1>
 
 <%= form_for(@invitation, :url => {:action => 'update'}) do |f| %>
   <% if @invitation.errors.any? %>
@@ -17,8 +17,6 @@
   <p>欠席: <%= radio_button 'invitation', 'intention', 'absence', {} %></p>
   <p>未定: <%= radio_button 'invitation', 'intention', 'pending', {} %></p>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit '更新' %>
   </div>
 <% end %>
-
-<%= link_to 'Top', root_path %>

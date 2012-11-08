@@ -1,38 +1,39 @@
 <p id="notice"><%= notice %></p>
 <% if @is_own %>
-<%= link_to 'Edit', edit_event_path(@event) %>
+<%= link_to 'イベントを編集', edit_event_path(@event) %> |
+<%= link_to 'イベントを消去', @event, method: :delete, data: { confirm: 'イベントを削除します。よろしいですか？' } %>
 <% end %>
 <p>
-  <b>Title:</b>
+  <b>タイトル</b>
   <%= @event.title %>
 </p>
 
 <p>
-  <b>Date:</b>
+  <b>開催日</b>
   <%= @event.date %>
 </p>
 
 <p>
-  <b>Place:</b>
+  <b>場所</b>
   <%= @event.place %>
 </p>
 
 <p>
-  <b>Budget:</b>
-  <%= @event.budget %>
+  <b>予算</b>
+  <%= @event.budget.blank? ? '未定' : @event.budget.to_s+'円' %>
 </p>
 
 <p>
-  <b>Context:</b>
+  <b>説明</b>
   <%= @event.context %>
 </p>
 <table>
 <tr>
-  <th>Name</th>
-  <th>Intention</th>
-  <th>Edit</th>
+  <th>氏名</th>
+  <th>出欠</th>
+  <th></th>
   <% if @is_own %>
-  <th>Destroy</th>
+  <th></th>
   <% end %>
 </tr>
 <% @invitations.each do |invitation| %>
@@ -47,15 +48,15 @@
 <td><%= intention %></td>
 <td>
 <% if @is_own || @user.id == invitation.user.id %>
-<%= link_to 'Edit', :controller => 'invitations', :action=>'edit', :id => invitation.id, :event_id => @event.id %>
+<%= link_to '編集', :controller => 'invitations', :action=>'edit', :id => invitation.id, :event_id => @event.id %>
 <% end %>
 </td>
 <% if @is_own %>
-<td><%= link_to 'Destroy', {:controller => 'invitations', :action=>'destroy', :id => invitation.id, :event_id => @event.id}, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<td><%= link_to 'リストから削除', {:controller => 'invitations', :action=>'destroy', :id => invitation.id, :event_id => @event.id}, method: :delete, data: { confirm: '削除します。よろしいですか？' } %></td>
 <% end %>
 </tr>
 <% end %>
 </table>
 <% if @is_own %>
-<%= link_to 'New Invitation', :controller => 'invitations', :action=>'new', :event_id => @event.id %>
+<%= link_to '新メンバーを招待', :controller => 'invitations', :action=>'new', :event_id => @event.id %>
 <% end %>

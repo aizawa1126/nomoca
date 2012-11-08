@@ -1,4 +1,4 @@
-<h1>New invitation</h1>
+<h1>新メンバーを招待</h1>
 
 <%= form_for(@invitation, :url => {:action => 'create'}) do |f| %>
   <% if @invitation.errors.any? %>
@@ -17,8 +17,6 @@
     <%=  f.select :user_id, @users.map{|t| [(t.name ? t.name : t.account), t.id]}%>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit '追加'%>
   </div>
 <% end %>
-
-<%= link_to 'Top', root_path %>
