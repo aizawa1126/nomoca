@@ -6,6 +6,14 @@ gem 'rails', '3.2.6'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 group :development, :test do
   gem 'sqlite3'
+  gem 'capybara'
+#  gem 'capybara-webkit'
+  gem 'cucumber'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'headless'
+  gem 'rspec-rails'
+  gem 'spork'
 end
 
 group :production do
