@@ -67,6 +67,7 @@ class EventsController < ApplicationController
       if @event.save
         @invitation = Invitation.new({"user_id" => @user.id, "event_id" => @event.id, "owner_id" => @user.id, "intention" => 'pending'})
         @invitation.save
+
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else

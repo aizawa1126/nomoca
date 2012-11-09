@@ -28,6 +28,12 @@ class InvitationsController < ApplicationController
   end
 
   def create
+    conditions = ["event_id = ?", params[:event_id]]
+    invitations = Invitation.find(:all, :conditions => conditions)
+    invitations.each do |invitation|
+      raise if invitation.user_id == params[:invitation][:user_id].to_i
+    end
+
     @event = Event.find(params[:event_id])
     raise unless @event.user_id == @user.id
     @invitation = Invitation.new(params[:invitation])
