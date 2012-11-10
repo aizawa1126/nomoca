@@ -33,6 +33,10 @@
     <%= f.label '詳細' %><br />
     <%= f.text_area :context %>
   </div>
+  <div class="field">
+    <%= f.label '公開する' %><br />
+    <%= f.check_box :public %>
+  </div>
   <div class="actions">
     <%= f.submit 'イベント作成'%>
   </div>

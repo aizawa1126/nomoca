@@ -1,6 +1,8 @@
 <p id="notice"><%= notice %></p>
+<% if @is_own || (@invitation && @invitation.editable) %>
+<%= link_to 'イベントを編集', edit_event_path(@event) %>
+<% end %>
 <% if @is_own %>
-<%= link_to 'イベントを編集', edit_event_path(@event) %> |
 <%= link_to 'イベントを消去', @event, method: :delete, data: { confirm: 'イベントを削除します。よろしいですか？' } %>
 <% end %>
 <p>
@@ -26,6 +28,10 @@
 <p>
   <b>説明</b>
   <%= @event.context %>
+</p>
+<p>
+  <b>公開範囲</b>
+  <%= @event.public == 'public' ? '全体' : 'メンバーのみ'  %>
 </p>
 <table>
 <tr>

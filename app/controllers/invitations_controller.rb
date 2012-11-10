@@ -28,11 +28,9 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    conditions = ["event_id = ?", params[:event_id]]
-    invitations = Invitation.find(:all, :conditions => conditions)
-    invitations.each do |invitation|
-      raise if invitation.user_id == params[:invitation][:user_id].to_i
-    end
+    conditions = ["event_id = ? and user_id = ?", params[:event_id], params[:invitation][:user_id]]
+    invitation = Invitation.find(:all, :conditions => conditions)
+    raise unless invitation.length == 0
 
     @event = Event.find(params[:event_id])
     raise unless @event.user_id == @user.id
@@ -52,8 +50,6 @@ class InvitationsController < ApplicationController
 
   def update
     railse unless accessible_invitation?
-    @invitation.owner_id = @user.id
-    @invitation.event_id = params[:event_id]
 
     respond_to do |format|
       if @invitation.update_attributes(params[:invitation])

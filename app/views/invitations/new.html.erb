@@ -16,6 +16,10 @@
   <div class="field">
     <%=  f.select :user_id, @users.map{|t| [(t.name ? t.name : t.account), t.id]}%>
   </div>
+  <div class="field">
+    <%= f.label '編集者' %><br />
+    <%= f.check_box :editable %>
+  </div>
   <div class="actions">
     <%= f.submit '追加'%>
   </div>

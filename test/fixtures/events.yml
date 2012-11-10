@@ -8,6 +8,7 @@ one:
   budget: 1
   context: MyText
   user_id: 1
+  public: 'public'
 
 two:
   id: 2
@@ -16,4 +17,5 @@ two:
   place: MyString
   budget: 1
   context: MyText
-  user_id: 2 
+  user_id: 2
+  public: 'public'

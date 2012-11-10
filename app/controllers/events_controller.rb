@@ -11,22 +11,47 @@ class EventsController < ApplicationController
     @event.user_id == @user.id
   end
 
-  def accessible
+  def accessible_event
+    conditions = ["id = ? and (public = ? or user_id = ?)", params[:id], 'public', @user.id]
+    @event = Event.find(:all, :conditions => conditions)
+
     conditions = ["user_id = ? and event_id = ?", @user.id, params[:id]]
     @invitation = Invitation.find(:all, :conditions => conditions)
-  end
-
-  def accessible_list
-    conditions = ["user_id = ?", @user.id]
-    @invitations = Invitation.find(:all, :conditions => conditions)
-    @events = Array.new
-    @invitations.each do |invitation|
-      @events << invitation.event
+    @invitation = @invitation[0]
+    if @event.blank?
+      raise unless @invitation && @invitation.event
+      @event = @invitation.event 
     end
   end
 
+  def accessible_events
+    conditions = ["public = ? or user_id = ?", 'public', @user.id]
+    @events = Event.find(:all, :conditions => conditions)
+
+    conditions = ["user_id = ?", @user.id]
+    @invitations = Invitation.find(:all, :conditions => conditions)
+    @invitations.each do |invitation|
+      @events << invitation.event
+    end
+    @events = @events.uniq
+  end
+
+  def editable_event
+    conditions = ["id = ? and user_id = ?", params[:id], @user.id]
+    @event = Event.find(:all, :conditions => conditions)
+    @event = @event[0]
+
+    if @event.blank?
+      conditions = ["user_id = ? and event_id = ?", @user.id, params[:id]]
+      @invitation = Invitation.find(:all, :conditions => conditions)
+      raise if @invitation.length == 0
+      @event = @invitation[0].event
+    end
+    @event
+  end
+
   def index
-    accessible_list
+    accessible_events
 
     respond_to do |format|
       format.html # index.html.erb
@@ -35,7 +60,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    raise unless accessible
+    accessible_event
     @is_own = is_own?
     conditions = ["event_id = ?", @event.id]
     @invitations = Invitation.find(:all, :conditions => conditions)
@@ -56,16 +81,17 @@ class EventsController < ApplicationController
   end
 
   def edit
-    raise unless is_own?
+    editable_event
   end
 
   def create
+    params[:event][:public] = params[:event][:public] == "0" ? 'private' : 'public' 
     @event = Event.new(params[:event])
     @event.user_id = @user.id
 
     respond_to do |format|
       if @event.save
-        @invitation = Invitation.new({"user_id" => @user.id, "event_id" => @event.id, "owner_id" => @user.id, "intention" => 'pending'})
+        @invitation = Invitation.new({"user_id" => @user.id, "event_id" => @event.id, "owner_id" => @user.id, "intention" => 'pending', "editable" => true})
         @invitation.save
 
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
@@ -78,7 +104,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    raise unless is_own?
+    editable_event
 
     respond_to do |format|
       if @event.update_attributes(params[:event])

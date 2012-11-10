@@ -16,6 +16,12 @@
   <p>出席: <%= radio_button 'invitation', 'intention', 'attendance', {:checked => true} %></p>
   <p>欠席: <%= radio_button 'invitation', 'intention', 'absence', {} %></p>
   <p>未定: <%= radio_button 'invitation', 'intention', 'pending', {} %></p>
+  <% if @invitation.owner_id == @user.id || @invitation.editable %>
+  <div class="field">
+    <%= f.label '編集者' %><br />
+    <%= f.check_box :editable %>
+  </div>
+  <% end %>
   <div class="actions">
     <%= f.submit '更新' %>
   </div>
