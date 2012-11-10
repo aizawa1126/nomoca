@@ -18,8 +18,8 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label '開催日' %><br />
-    <%= f.date_select :date %>
+    <%= f.label '日時' %><br />
+    <%= f.datetime_select :start_time, :start_year => Time.now.year, :end_year => Time.now.year + 2, :use_month_numbers => true, :minute_step => 10 %>
   </div>
   <div class="field">
     <%= f.label '場所' %><br />

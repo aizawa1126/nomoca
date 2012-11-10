@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 8) do
+ActiveRecord::Schema.define(:version => 9) do
 
   create_table "events", :force => true do |t|
     t.string   "title"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 8) do
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
     t.string   "public"
+    t.datetime "start_time"
   end
 
   create_table "invitations", :force => true do |t|

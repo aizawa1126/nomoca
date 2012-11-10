@@ -9,22 +9,18 @@
   <b>タイトル</b>
   <%= @event.title %>
 </p>
-
 <p>
-  <b>開催日</b>
-  <%= @event.date %>
+  <b>日時</b>
+  <%= if @event.start_time then @event.start_time.strftime("%Y-%m-%d %H:%M") end %>
 </p>
-
 <p>
   <b>場所</b>
   <%= @event.place %>
 </p>
-
 <p>
   <b>予算</b>
   <%= @event.budget.blank? ? '未定' : @event.budget.to_s+'円' %>
 </p>
-
 <p>
   <b>説明</b>
   <%= @event.context %>
