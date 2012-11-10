@@ -22,6 +22,10 @@
   <%= @event.budget.blank? ? '未定' : @event.budget.to_s+'円' %>
 </p>
 <p>
+  <b>申込期限</b>
+  <%= if @event.reply_delivery then @event.reply_delivery.strftime("%Y-%m-%d %H:%M") end %>
+</p>
+<p>
   <b>説明</b>
   <%= @event.context %>
 </p>
