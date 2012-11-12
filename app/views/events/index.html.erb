@@ -1,22 +1,22 @@
 <h1>イベントリスト</h1>
 
-<table>
+<table id="event_list">
   <tr>
-    <th>タイトル</th>
-    <th>日時</th>
-    <th>場所</th>
-    <th>予算</th>
-    <th>説明</th>
+    <th class="title">タイトル</th>
+    <th class="start_time">日時</th>
+    <th class="place">場所</th>
+    <th class="budget">予算</th>
+    <th class="context">説明</th>
     <th></th>
   </tr>
 
 <% @events.each do |event| %>
   <tr>
-    <td><%= event.title %></td>
-    <td><%= if event.start_time then event.start_time.strftime("%Y-%m-%d %H:%M") end %></td>
-    <td><%= event.place %></td>
-    <td><%= event.budget.blank? ? '未定' : event.budget.to_s+'円' %></td>
-    <td><%= event.context %></td>
+    <td class="title"><%= event.title %></td>
+    <td class="start_time"><%= if event.start_time then event.start_time.strftime("%Y-%m-%d %H:%M") end %></td>
+    <td class="place"><%= event.place %></td>
+    <td class="budget"><%= event.budget.blank? ? '未定' : event.budget.to_s+'円' %></td>
+    <td class="context"><%= event.context %></td>
     <td><%= link_to 'もっと見る', event %></td>
   </tr>
 <% end %>

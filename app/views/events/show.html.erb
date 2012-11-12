@@ -5,64 +5,54 @@
 <% if @is_own %>
 <%= link_to 'イベントを消去', @event, method: :delete, data: { confirm: 'イベントを削除します。よろしいですか？' } %>
 <% end %>
-<p>
-  <b>タイトル</b>
-  <%= @event.title %>
-</p>
-<p>
-  <b>日時</b>
-  <%= if @event.start_time then @event.start_time.strftime("%Y-%m-%d %H:%M") end %>
-</p>
-<p>
-  <b>場所</b>
-  <%= @event.place %>
-</p>
-<p>
-  <b>予算</b>
-  <%= @event.budget.blank? ? '未定' : @event.budget.to_s+'円' %>
-</p>
-<p>
-  <b>申込期限</b>
-  <%= if @event.reply_delivery then @event.reply_delivery.strftime("%Y-%m-%d %H:%M") end %>
-</p>
-<p>
-  <b>説明</b>
-  <%= @event.context %>
-</p>
-<p>
-  <b>公開範囲</b>
-  <%= @event.public == 'public' ? '全体' : 'メンバーのみ'  %>
-</p>
-<table>
-<tr>
-  <th>氏名</th>
-  <th>出欠</th>
-  <th></th>
-  <% if @is_own %>
-  <th></th>
-  <% end %>
-</tr>
-<% @invitations.each do |invitation| %>
-<tr>
-<td><%= invitation.user.name ? invitation.user.name : invitation.user.account %></td>
-<% 
+<dl>
+  <dt>タイトル</dt>
+  <dd><%= @event.title %></dd>
+  <dt>日時</dt>
+  <dd><%= if @event.start_time then @event.start_time.strftime("%Y-%m-%d %H:%M") end %></dd>
+  <dt>場所</dt>
+  <dd><%= @event.place %></dd>
+  <dt>予算</dt>
+  <dd><%= @event.budget.blank? ? '未定' : @event.budget.to_s+'円' %></dd>
+  <dt>申込期限</dt>
+  <dd><%= if @event.reply_delivery then @event.reply_delivery.strftime("%Y-%m-%d %H:%M") end %></dd>
+  <dt>説明</dt>
+  <dd class="context"><%= @event.context %></dd>
+  <dt>公開範囲</dt>
+  <dd><%= @event.public == 'public' ? '全体' : 'メンバーのみ'  %></dd>
+</dl>
+<div>
+  <table>
+    <tr>
+      <th class="name">氏名</th>
+      <th class="intention">出欠</th>
+      <th></th>
+      <% if @is_own %>
+      <th></th>
+      <% end %>
+    </tr>
+    <% @invitations.each do |invitation| %>
+    <tr>
+      <td class="name"><%= invitation.user.name ? invitation.user.name : invitation.user.account %></td>
+      <% 
   intention = if invitation.intention == 'attendance' then '◯'
               elsif invitation.intention == 'pending' then '△'
               else '×'
               end
-%>
-<td><%= intention %></td>
-<td>
-<% if @is_own || @user.id == invitation.user.id %>
-<%= link_to '編集', :controller => 'invitations', :action=>'edit', :id => invitation.id, :event_id => @event.id %>
-<% end %>
-</td>
-<% if @is_own %>
-<td><%= link_to 'リストから削除', {:controller => 'invitations', :action=>'destroy', :id => invitation.id, :event_id => @event.id}, method: :delete, data: { confirm: '削除します。よろしいですか？' } %></td>
-<% end %>
-</tr>
-<% end %>
-</table>
+      %>
+      <td class="intention"><%= intention %></td>
+      <td>
+      <% if @is_own || @user.id == invitation.user.id %>
+      <%= link_to '編集', :controller => 'invitations', :action=>'edit', :id => invitation.id, :event_id => @event.id %>
+      <% end %>
+      </td>
+      <% if @is_own %>
+      <td><%= link_to 'リストから削除', {:controller => 'invitations', :action=>'destroy', :id => invitation.id, :event_id => @event.id}, method: :delete, data: { confirm: '削除します。よろしいですか？' } %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
+</div>
 <% if @is_own %>
 <%= link_to '新メンバーを招待', :controller => 'invitations', :action=>'new', :event_id => @event.id %>
 <% end %>

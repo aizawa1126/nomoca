@@ -1,3 +1,49 @@
 // Place all the styles related to the events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#event_list td {
+  max-width: 240px;
+}
+
+#event_list td.title,
+#event_list td.place,
+#event_list td.context {
+  max-width: 240px;
+  white-space: nowrap;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#event_list .context {
+  border: none;
+}
+
+td.intention {
+  text-align: center;
+}
+
+.context {
+  border: solid 1px #B0B0B0;
+  white-space: pre-wrap;
+}
+
+dl {
+  display: block;
+}
+
+dt {
+  width: 60px;
+  float: left;
+  padding: 8px 0;
+  text-align: right;
+}
+
+dt::after {
+  content: ":";
+}
+
+dd {
+  margin-left: 70px;
+  padding: 8px 0;
+}
