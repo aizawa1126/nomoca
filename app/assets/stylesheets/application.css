@@ -22,3 +22,11 @@ ul.menu {
   right: 0px;
   top: -20px;
 }
+
+table, td, th {
+  border: solid 1px #B0B0B0;
+}
+
+table .even {  
+  background:#efefef;  
+}  
