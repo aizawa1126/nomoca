@@ -1,0 +1,23 @@
+<h1>コメントの編集</h1>
+
+<%= form_for(@comment, :url => {:controller => 'comments', :action => 'update', :event_id => params[:event_id]}) do |f| %>
+  <% if @comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+      <% @comment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label 'コメント' %><br />
+    <%= f.text_area :content %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'コメントの更新' %>
+  </div>
+<% end %>

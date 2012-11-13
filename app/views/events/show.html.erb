@@ -17,7 +17,7 @@
   <dt>申込期限</dt>
   <dd><%= if @event.reply_delivery then @event.reply_delivery.strftime("%Y-%m-%d %H:%M") end %></dd>
   <dt>説明</dt>
-  <dd class="context"><%= auto_link(@event.context, :html => { :target => "_blank" }) %></dd>
+  <dd class="context"><%= @event.context.blank? ? "説明はありません" : auto_link(@event.context, :html => { :target => "_blank" }) %></dd>
   <dt>公開範囲</dt>
   <dd><%= @event.public == 'public' ? '全体' : 'メンバーのみ'  %></dd>
 </dl>
@@ -31,6 +31,7 @@
       <th></th>
       <% end %>
     </tr>
+    <% total = 0 %>
     <% @invitations.each do |invitation| %>
     <tr>
       <td class="name"><%= invitation.user.name ? invitation.user.name : invitation.user.account %></td>
@@ -40,6 +41,7 @@
               else '×'
               end
       %>
+      <% if invitation.intention == 'attendance' then total = total + 1 end %>
       <td class="intention"><%= intention %></td>
       <td>
       <% if @is_own || @user.id == invitation.user.id %>
@@ -51,8 +53,55 @@
       <% end %>
     </tr>
     <% end %>
+    <tr>
+      <td>参加</td>
+      <td><%= total %>人</td>
+    </tr>
   </table>
-</div>
 <% if @is_own %>
 <%= link_to '新メンバーを招待', :controller => 'invitations', :action=>'new', :event_id => @event.id %>
 <% end %>
+</div>
+<div>
+  <p>コメント</p>
+  <% if @comments.length == 0 %>
+  <p>ありません</p>
+  <% else %>
+  <ul id="comments">
+  <% @comments.each do |comment| %>
+    <li class="comment">
+      <p class="info">
+        <span><%= comment.user.name ? comment.user.name : comment.user.account %></span>
+        <span><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></span>
+        <% if @is_own || comment.user.id == @user.id %>
+        <%= link_to '編集', edit_event_comment_path(@event.id, comment) %>
+        <%= link_to '削除', {:controller => 'comments', :action=>'destroy', :id => comment.id, :event_id => @event.id}, method: :delete, data: { confirm: '削除します。よろしいですか？' } %>
+        <% end %>
+      </p>
+      <p class="body"><%= auto_link(comment.content, :html => { :target => "_blank" }) %></p>
+    </li>
+  <% end %>
+  </ul>
+  <% end %>
+  <%= form_for(@comment, :url => {:controller => 'comments', :action => 'create', :event_id => @event.id}) do |f| %>
+    <% if @comment.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+        <ul>
+        <% @comment.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label '新規コメント' %><br />
+      <%= f.text_area :content, :placeholder => '新規コメントを入力' %>
+    </div>
+    <div class="actions">
+      <%= f.submit 'コメント追加' %>
+    </div>
+  <% end %>
+</div>

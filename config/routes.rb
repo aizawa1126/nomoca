@@ -3,6 +3,7 @@ Cheers::Application.routes.draw do
 
   resources :events do
     resources :invitations, :except => [:index, :show]
+    resources :comments, :only => [:create, :edit, :update, :destroy]
   end
 
   match 'authentication' => 'authentication#index'

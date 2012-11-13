@@ -63,7 +63,11 @@ class EventsController < ApplicationController
     accessible_event
     @is_own = is_own?
     conditions = ["event_id = ?", @event.id]
-    @invitations = Invitation.find(:all, :conditions => conditions)
+    @invitations = Invitation.find(:all, :order => "created_at ASC", :conditions => conditions)
+
+    conditions = ["event_id = ?", @event.id]
+    @comments = Comment.find(:all, :order => "created_at ASC", :conditions => conditions)
+    @comment = Comment.new
 
     respond_to do |format|
       format.html # show.html.erb
