@@ -7,17 +7,17 @@
 <% end %>
 <dl>
   <dt>タイトル</dt>
-  <dd><%= @event.title %></dd>
+  <dd><%= auto_link(@event.title, :html => { :target => "_blank" }) %></dd>
   <dt>日時</dt>
   <dd><%= if @event.start_time then @event.start_time.strftime("%Y-%m-%d %H:%M") end %></dd>
   <dt>場所</dt>
-  <dd><%= @event.place %></dd>
+  <dd><%= auto_link(@event.place, :html => { :target => "_blank" }) %></dd>
   <dt>予算</dt>
   <dd><%= @event.budget.blank? ? '未定' : @event.budget.to_s+'円' %></dd>
   <dt>申込期限</dt>
   <dd><%= if @event.reply_delivery then @event.reply_delivery.strftime("%Y-%m-%d %H:%M") end %></dd>
   <dt>説明</dt>
-  <dd class="context"><%= @event.context %></dd>
+  <dd class="context"><%= auto_link(@event.context, :html => { :target => "_blank" }) %></dd>
   <dt>公開範囲</dt>
   <dd><%= @event.public == 'public' ? '全体' : 'メンバーのみ'  %></dd>
 </dl>

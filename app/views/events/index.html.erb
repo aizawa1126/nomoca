@@ -12,11 +12,11 @@
 
 <% @events.each do |event| %>
   <tr>
-    <td class="title"><%= event.title %></td>
+    <td class="title"><%= auto_link(event.title, :html => { :target => "_blank" }) %></td>
     <td class="start_time"><%= if event.start_time then event.start_time.strftime("%Y-%m-%d %H:%M") end %></td>
-    <td class="place"><%= event.place %></td>
+    <td class="place"><%= auto_link(event.place, :html => { :target => "_blank" }) %></td>
     <td class="budget"><%= event.budget.blank? ? '未定' : event.budget.to_s+'円' %></td>
-    <td class="context"><%= event.context %></td>
+    <td class="context"><%= auto_link(event.context, :html => { :target => "_blank" }) %></td>
     <td><%= link_to 'もっと見る', event %></td>
   </tr>
 <% end %>
